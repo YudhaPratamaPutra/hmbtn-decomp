@@ -42,6 +42,8 @@ psx_exe(SLUS_011.15 BASE 0x80010000 STACK 0x801FFFF0 REGION_TEXT "North America"
         ui/heart.c
         ui/name_entry.c
         ui/ui_icons.c
+        ui/mod_status_display.c
+
     SMALL_COMMONS
         main.c
         graphics/screen_fade.c
