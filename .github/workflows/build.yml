@@ -12,15 +12,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      
+      - name: Download original disc
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/original-disc"
+          gh release download \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern "baserom.bin" \
+            --dir "$RUNNER_TEMP/original-disc"
+          test -s "$RUNNER_TEMP/original-disc/baserom.bin"
+          
       - name: Build the image
         run: docker build -t hmbtn-build .
-
+      
       - name: Build and check
         run: >
-          docker run --rm --user "$(id -u):$(id -g)" -v "$PWD":/src -w /src hmbtn-build
-          bash -c 'cmake -S . -B build -G Ninja && cmake --build build --target check'
-
+          docker run --rm
+          --user "$(id -u):$(id -g)"
+          -v "$PWD":/src
+          -v "$RUNNER_TEMP/original-disc:/disc:ro"
+          -w /src hmbtn-build
+          bash -c 'cmake -S . -B build -G Ninja
+          -DORIGINAL_DISC=/disc/baserom.bin &&
+          cmake --build build --target check'
+          
       - name: Progress report
         run: |
           curl -fsSL -o objdiff-cli \
