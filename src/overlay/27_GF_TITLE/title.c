@@ -39,7 +39,7 @@
 #define TITLE_BLINK_ON 15
 #define TITLE_BLINK_END_FRAMES 90
 /* The new player's money and stamina. */
-#define TITLE_START_GOLD 500
+#define TITLE_START_GOLD 9999999
 #define TITLE_START_STAMINA 100
 
 /* One of the three title pictures. */
