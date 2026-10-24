@@ -58,6 +58,7 @@
 /* The active ordering-table block starts here; each frame index moves it by 0x3000. */
 #define REGION_FRAME_OT_BASE 0x38E50
 
+extern void Draw_Custom_Stamina_Fatigue_UI(void);
 static void main_run_frame(void);
 static void main_draw_ots(void);
 static void main_set_debug_mode(s32 scene);
@@ -67,6 +68,7 @@ static void main_frame_reset(int index);
 static void main_init_frame_records(void);
 static void main_init_frame_records_wide(void);
 static void main_copy_prim_buffer(s32 enabled, s32 frame_count);
+
 
 s32 prim_copy_frame_count;
 void (*scene_frame_handler)(void);
@@ -397,6 +399,7 @@ static void main_run_frame(void) {
         pad_poll_ports();
         sound_load_tick();
         if (loading_screen_is_active() == 1) {
+            Draw_Custom_Stamina_Fatigue_UI();
             scene_frame_handler();
             DrawSync(0);
             VSync(2);
